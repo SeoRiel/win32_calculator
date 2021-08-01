@@ -1,0 +1,4 @@
+﻿  API-calculator.cpp
+C:\Programming\02.Win API\API-calculator\API-calculator\API-calculator.cpp(333,26): warning C4244: '*=': conversion from 'double' to 'int', possible loss of data
+C:\Programming\02.Win API\API-calculator\API-calculator\API-calculator.cpp(359,24): warning C4244: '*=': conversion from 'double' to 'int', possible loss of data
+  API-calculator.vcxproj -> C:\Programming\02.Win API\API-calculator\Debug\API-calculator.exe
