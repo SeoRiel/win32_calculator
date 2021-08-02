@@ -1,6 +1,5 @@
 #include <windows.h>												// 윈도우 헤더파일
 #include <iostream>
-#include "API-calculator.h"
 
 LRESULT CALLBACK WndProc(HWND, UINT, WPARAM, LPARAM);				// CALLBACK 매크로
 HINSTANCE g_Instance;												// 인스턴스 핸들
@@ -50,9 +49,9 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT iMessage, WPARAM wParam, LPARAM lParam)
 	PAINTSTRUCT ps;
 	static int count = 0;
 	static int vArray = 0;						// numberValue의 Array에서 사용할 배열 index 탐색용 변수
-	static int pArray = 0;						// numberList의 Array에서 사용할 배열 index 탐색용 변수
-	static TCHAR numberList[128]{ };
-	static int numberValue = 0;
+	static int lArray = 0;						// numberList의 Array에서 사용할 배열 index 탐색용 변수
+	TCHAR numberList[128]{ '\0', };
+	static int numberValue[128]{ 0, };
 
 	// Pad Position
 	const int numPadSizeX = 100;
@@ -150,166 +149,167 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT iMessage, WPARAM wParam, LPARAM lParam)
 				300 + padDistanceX, padDistanceY - 50, numPadSizeX, numPadSizeY, hWnd, (HMENU)ID_BACKSPACE, g_Instance, NULL);
 			break;
 
+		// 출력 가능한 숫자의 자리 수는 최대 10억까지 가능
+		// 연산자 출력이 되지 않는 상태
+		// 실수 변경이 되지 않는 상태
+
+
 		case WM_COMMAND:
 			switch (LOWORD(wParam))
 			{
 				case ID_NUMBER_0:
-					if (numberValue > 0)
+					if (numberValue[vArray] > 0)
 					{
-						numberValue *= 10;
+						numberValue[vArray] *= 10;
 					}
-
-					wsprintfW(numberList, L"%d", numberValue);
+					wsprintfW(numberList, L"%d", numberValue[vArray]);
 					SetDlgItemText(hWnd, ID_STATIC, numberList);
 					break;
 
 				case ID_NUMBER_1:
-					if (numberValue == 0)
+					if (numberValue[vArray] == 0)
 					{
-						numberValue = 1;
+						numberValue[vArray] = 1;
 					}
-					else if (numberValue > 0)
+					else if (numberValue[vArray] > 0)
 					{
-						numberValue = numberValue * 10 + 1;
+						numberValue[vArray] = numberValue[vArray] * 10 + 1;
 					}
 
-					wsprintfW(numberList, L"%d", numberValue);
+					wsprintfW(numberList, L"%d", numberValue[vArray]);			// 여기서 출력이 초기화 됨
 					SetDlgItemText(hWnd, ID_STATIC, numberList);
 					break;
 
 				case ID_NUMBER_2:
-					if (numberValue == 0)
+					if (numberValue[vArray] == 0)
 					{
-						numberValue = 2;
+						numberValue[vArray] = 2;
 					}
-					else if (numberValue > 0)
+					else if (numberValue[vArray] > 0)
 					{
-						numberValue = numberValue * 10 + 2;
+						numberValue[vArray] = numberValue[vArray] * 10 + 2;
 					}
 
-					wsprintfW(numberList, L"%d", numberValue);
+					wsprintfW(numberList, L"%d", numberValue[vArray]);
 					SetDlgItemText(hWnd, ID_STATIC, numberList);
 					break;
 
 				case ID_NUMBER_3:
-					if (numberValue == 0)
+					if (numberValue[vArray] == 0)
 					{
-						numberValue = 3;
+						numberValue[vArray] = 3;
 					}
-					else if (numberValue > 0)
+					else if (numberValue[vArray] > 0)
 					{
-						numberValue = numberValue * 10 + 3;
+						numberValue[vArray] = numberValue[vArray] * 10 + 3;
 					}
 
-					wsprintfW(numberList, L"%d", numberValue);
+					wsprintfW(numberList, L"%d", numberValue[vArray]);
 					SetDlgItemText(hWnd, ID_STATIC, numberList);
 					break;
 
 				case ID_NUMBER_4:
-					if (numberValue <= 0)
+					if (numberValue[vArray] <= 0)
 					{
-						numberValue = 4;
+						numberValue[vArray] = 4;
 					}
-					else if (numberValue > 0)
+					else if (numberValue[vArray] > 0)
 					{
-						numberValue = numberValue * 10 + 4;
+						numberValue[vArray] = numberValue[vArray] * 10 + 4;
 					}
 
-					wsprintfW(numberList, L"%d", numberValue);
+					wsprintfW(numberList, L"%d", numberValue[vArray]);
 					SetDlgItemText(hWnd, ID_STATIC, numberList);
 					break;
 
 				case ID_NUMBER_5:
-					if (numberValue == 0)
+					if (numberValue[vArray] == 0)
 					{
-						numberValue = 5;
+						numberValue[vArray] = 5;
 					}
-					else if (numberValue > 0)
+					else if (numberValue[vArray] > 0)
 					{
-						numberValue = numberValue * 10 + 5;
+						numberValue[vArray] = numberValue[vArray] * 10 + 5;
 					}
 
-					wsprintfW(numberList, L"%d", numberValue);
+					wsprintfW(numberList, L"%d", numberValue[vArray]);
 					SetDlgItemText(hWnd, ID_STATIC, numberList);
 					break;
 
 				case ID_NUMBER_6:
-					if (numberValue == 0)
+					if (numberValue[vArray] == 0)
 					{
-						numberValue = 6;
+						numberValue[vArray] = 6;
 					}
-					else if (numberValue > 0)
+					else if (numberValue[vArray] > 0)
 					{
-						numberValue = numberValue * 10 + 6;
+						numberValue[vArray] = numberValue[vArray] * 10 + 6;
 					}
 
-					wsprintfW(numberList, L"%d", numberValue);
+					wsprintfW(numberList, L"%d", numberValue[vArray]);
 					SetDlgItemText(hWnd, ID_STATIC, numberList);
 					break;
 
 				case ID_NUMBER_7:
 					if (numberValue == 0)
 					{
-						numberValue = 7;
+						numberValue[vArray] = 7;
 					}
 					else if (numberValue > 0)
 					{
-						numberValue = numberValue * 10 + 7;
+						numberValue[vArray] = numberValue[vArray] * 10 + 7;
 					}
 
-					wsprintfW(numberList, L"%d", numberValue);
+					wsprintfW(numberList, L"%d", numberValue[vArray]);
 					SetDlgItemText(hWnd, ID_STATIC, numberList);
 					break;
 
 				case ID_NUMBER_8:
 					if (numberValue <= 0)
 					{
-						numberValue = 8;
+						numberValue[vArray] = 8;
 					}
 					else if (numberValue > 0)
 					{
-						numberValue = numberValue * 10 + 8;
+						numberValue[vArray] = numberValue[vArray] * 10 + 8;
 					}
 
-					wsprintfW(numberList, L"%d", numberValue);
+					wsprintfW(numberList, L"%d", numberValue[vArray]);
 					SetDlgItemText(hWnd, ID_STATIC, numberList);
 					break;
 
 				case ID_NUMBER_9:
-					if (numberValue <= 0)
+					if (numberValue[vArray] <= 0)
 					{
-						numberValue = 9;
+						numberValue[vArray] = 9;
 					}
 					else if (numberValue > 0)
 					{
-						numberValue = numberValue * 10 + 9;
+						numberValue[vArray] = numberValue[vArray] * 10 + 9;
 					}
 
-					wsprintfW(numberList, L"%d", numberValue);
+					wsprintfW(numberList, L"%d", numberValue[vArray]);
 					SetDlgItemText(hWnd, ID_STATIC, numberList);
 					break;
 
+				// Operator
+
 				case ID_POINT:
 					// numberValue의 자료형을 int -> float로 변경
-					// 10 + 0.1f = 10.1으로 numberValue에 저장되어야함
-					// numberValue += 0.1f;
-					wsprintfW(numberList, L"%0.f", (float)numberValue);
+					// wsprinfW의 매개변수를 동적으로 생성하여 저장
+
+					vArray++;
+					numberValue[vArray] *= 0.1;
+					numberValue[vArray] += numberValue[vArray - 1];
+					wsprintfW(numberList, L"%d %s", numberValue[vArray], L".");
 					SetDlgItemText(hWnd, ID_STATIC, numberList);
 					break;
 
 					// Input operator button 
 					// 연산자 버튼 클릭 시, 다음 배열로 변경
 				case ID_DIVISION:
-					if (numberList[pArray] < ' ' && numberValue < 0)
-					{
-						wsprintfW(numberList, L"%d", numberValue);
-					}
-					else
-					{
-						numberList[pArray] = '/';
-					}
-
-					wsprintfW(numberList, L"%d", numberValue);
+					wsprintfW(numberList, L"%d %s %d", numberValue[vArray], L"/", numberValue[vArray+1]);
+					vArray++;
 					SetDlgItemText(hWnd, ID_STATIC, numberList);
 					break;
 
@@ -317,9 +317,6 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT iMessage, WPARAM wParam, LPARAM lParam)
 					break;
 
 				case ID_SUBTRACTION:
-					numberList[pArray] = '-';
-					wsprintfW(numberList, L"%d", numberValue);
-					SetDlgItemText(hWnd, ID_STATIC, numberList);
 					break;
 
 				case ID_ADDITION:
@@ -329,10 +326,6 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT iMessage, WPARAM wParam, LPARAM lParam)
 					break;
 
 				case ID_PERCENT:
-					wsprintfW(numberList, TEXT("%"));
-					numberValue *= 0.001;
-					wsprintfW(numberList, L"%d", numberValue, '%');
-					SetDlgItemText(hWnd, ID_STATIC, numberList);
 					break;
 
 				case ID_CE:
@@ -343,12 +336,12 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT iMessage, WPARAM wParam, LPARAM lParam)
 
 					if (count == 1)
 					{
-						numberValue = 0;
+						numberValue[vArray] = 0;
 					}
 					else
 					{
-						numberValue = 0;
-						numberList[pArray] = '\0';
+						numberValue[vArray] = 0;
+						numberList[lArray] = '\0';
 					}
 					SetDlgItemText(hWnd, ID_STATIC, numberList);
 					break;
@@ -356,9 +349,9 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT iMessage, WPARAM wParam, LPARAM lParam)
 					// numberList의 출력은 삭제되지만 numberValue에 저장된 값은 그대로인 상태
 					// 마지막 자리 숫자 임시 저장 및 Back Space 입력 시, 값 변화
 				case ID_BACKSPACE:
-					numberValue *= 0.1;
+					numberValue[vArray] *= 0.1;
 					numberList[lstrlen(numberList) - 1] = NULL;
-					wsprintfW(numberList, L"%d", numberValue);
+					wsprintfW(numberList, L"%d", numberValue[vArray]);
 					SetDlgItemText(hWnd, ID_STATIC, numberList);
 					break;
 
@@ -367,7 +360,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT iMessage, WPARAM wParam, LPARAM lParam)
 
 		case WM_PAINT:
 			hdc = BeginPaint(hWnd, &ps);
-			wsprintfW(numberList, L"%d", numberValue);
+			wsprintfW(numberList, L"%d", numberValue[vArray]);
 			TextOutW(hdc, 50, 360, numberList, sizeof(numberList));
 			InvalidateRect(hWnd, NULL, false);
 			ReleaseDC(hWnd, hdc);

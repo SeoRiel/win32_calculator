@@ -141,18 +141,10 @@
   <ItemGroup>
     <ClInclude Include="API-calculator.h" />
     <ClInclude Include="framework.h" />
-    <ClInclude Include="Resource.h" />
     <ClInclude Include="targetver.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="API-calculator.cpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <ResourceCompile Include="API-calculator.rc" />
-  </ItemGroup>
-  <ItemGroup>
-    <Image Include="API-calculator.ico" />
-    <Image Include="small.ico" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
